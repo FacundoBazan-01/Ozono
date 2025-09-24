@@ -1,16 +1,23 @@
 require("dotenv").config()
 const express = require('express');
 const { conection } = require('./config/database');
+const routesEmpleados = require("./routes/route.empleados")
 const cors = require('cors');
 const app = express();
 
 app.use(cors())
 app.use(express.json());
 
+
 // Rutas
 app.get('/', (req, res) => {
     res.send('Bienvenido a Ozono');
 });
+app.use("/",routesEmpleados);
+
+
+
+
 
 // Conexión a la base de datos
 conection.connect((err) => {
