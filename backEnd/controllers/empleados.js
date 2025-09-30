@@ -14,14 +14,14 @@ const getEmpleados = (req,res) =>{
 }
 
 const createEmpleado = async (req,res)=>{
-    const {nombreEmp, apellidoEmp, contraEmp, rolEmpleado} = req.body
+    const {nombreEmp, apellidoEmp, emailEmp, contraEmp, rolEmpleado} = req.body
 
     let salt = await bcryptjs.genSalt(10);
     let contraEncrip = await bcryptjs.hash(contraEmp, salt);
+    
+    const consulta = "insert  into empleados (nombreEmp, apellidoEmp,emailEmp, contraEmp, rolEmpleado) values (?,?,?,?,?)"
 
-    const consulta = "insert  into empleados (nombreEmp, apellidoEmp, contraEmp, rolEmpleado) values (?,?,?,?)"
-
-    conection.query(consulta,[nombreEmp,apellidoEmp,contraEncrip,rolEmpleado],(err,result)=>{
+    conection.query(consulta,[nombreEmp,apellidoEmp,emailEmp,contraEncrip,rolEmpleado],(err,result)=>{
         if(err){
             console.log("Error al crear empleado:", err)
             return res.status(500).json({error:"Error al crear el empleado"})

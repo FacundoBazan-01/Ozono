@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require('express');
 const { conection } = require('./config/database');
 const routesEmpleados = require("./routes/route.empleados")
+const routeslogin= require("./routes/route.login")
 const cors = require('cors');
 const app = express();
 
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('Bienvenido a Ozono');
 });
 app.use("/",routesEmpleados);
-
+app.use("/",routeslogin)
 
 
 
