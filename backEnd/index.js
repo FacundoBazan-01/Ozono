@@ -3,6 +3,7 @@ const express = require('express');
 const { conection } = require('./config/database');
 const routesEmpleados = require("./routes/route.empleados")
 const routeslogin= require("./routes/route.login")
+const routesProductos = require("./routes/route.productos")
 const cors = require('cors');
 const app = express();
 
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 app.use("/",routesEmpleados);
 app.use("/",routeslogin)
+app.use("/",routesProductos)
 
 
 
