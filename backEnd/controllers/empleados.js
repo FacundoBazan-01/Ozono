@@ -6,10 +6,23 @@ const getEmpleados = (req,res) =>{
 
     conection.query(consulta,(err, result)=>{
          if (err) {
-            console.error('Error al traer los empleados:', err);
+            console.log('Error al traer los empleados:', err);
             return res.status(500).json({ error: 'Error al traer los empleados' });
         }
         res.status(200).json({ message: 'Empleados traidos con exito', result});
+    })
+}
+
+const getEmpleado = (req, res)=>{
+    const id = req.params.id
+    const consulta = "select * from empleados where idEmpleado = ?"
+
+    conection.query(consulta,[id],(error,result)=>{
+        if (error) {
+            console.log('Error al traer el empleado:', error);
+            return res.status(500).json({ error: 'Error al traer al el empleado' });
+        }
+        res.status(200).json({message:"Empleado traido con exito", result})
     })
 }
 
@@ -77,6 +90,7 @@ const reactivarEmpleado = (req,res)=>{
 
 module.exports={
     getEmpleados,
+    getEmpleado,
     createEmpleado,
     updateEmpleado,
     darBajaEmpleado,

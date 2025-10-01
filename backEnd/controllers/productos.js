@@ -1,4 +1,3 @@
-const { error } = require("console");
 const { conection } = require("../config/database");
 const util = require("util");
 
@@ -37,7 +36,8 @@ const createProducto = async (req, res) => {
   const consultaVerificacion = "select  * from productos where codigoProd = ?";
 
   const result = await query(consultaVerificacion, [codigoProd]);
-  if (result === 0) {
+  
+  if (result.length === 0) {
     const consultaCrear =
       "insert into productos (codigoProd, nombreProd, descripcionProd, creadoPor) values (?,?,?,?)";
     conection.query(
@@ -51,23 +51,25 @@ const createProducto = async (req, res) => {
         res.status(201).json({ message: "Producto creado con exito" });
       }
     );
+  }else{
+    return res.status(400).json({ msg: "El producto ya se encuentra creado" });
   }
 };
 
 const updateProducto = (req, res) => {
-  const { codigoProd, nombreProd, descripcionProd, creadoPor } = req.body;
+  const { codigoProd, nombreProd, descripcionProd } = req.body;
   const id = req.params.id;
   const consulta =
-    "update productos set codigoProd=?, nombreProd=?, descripcionProd=?, creadoPor=? where idProducto=?";
+    "update productos set codigoProd=?, nombreProd=?, descripcionProd=? where idProducto=?";
   conection.query(
     consulta,
-    [codigoProd, nombreProd, descripcionProd, creadoPor, id],
+    [codigoProd, nombreProd, descripcionProd, id],
     (error, result) => {
       if (error) {
         console.log("Error al actualizar el producto:", error);
         return res
           .status(500)
-          .json({ error: "Error al crear actualizar el producto" });
+          .json({ error: "Error al actualizar el producto" });
       }
       res.status(201).json({ message: "Producto actualizado con exito" });
     }
